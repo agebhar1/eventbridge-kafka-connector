@@ -43,9 +43,14 @@ jobs:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: "maven"
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
       - name: Run Kafka Connect ${{ matrix.kafka }} E2E Tests with Apache Kafka
         run: |
           echo "Running integration tests with Docker Compose file: ${COMPOSE_FILE}"
+          docker compose version
           docker compose -f ${COMPOSE_FILE} pull
           mvn --batch-mode --no-transfer-progress --errors --update-snapshots clean verify -Drevision=$(git describe --tags --always)
 
@@ -69,9 +74,14 @@ jobs:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: "maven"
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
       - name: Run Confluent Kafka Platform ${{ matrix.kafka }} E2E Tests
         run: |
           echo "Running integration tests with Docker Compose file: ${COMPOSE_FILE}"
+          docker compose version
           docker compose -f ${COMPOSE_FILE} pull
           mvn --batch-mode --no-transfer-progress --errors --update-snapshots clean verify -Drevision=$(git describe --tags --always)
 
@@ -97,8 +107,13 @@ jobs:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: "maven"
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
       - name: Run Kafka Connect ${{ matrix.kafka }} E2E Tests with Redpanda ${{ matrix.redpanda }}
         run: |
           echo "Running integration tests with Docker Compose file: ${COMPOSE_FILE}"
+          docker compose version
           docker compose -f ${COMPOSE_FILE} pull
           mvn --batch-mode --no-transfer-progress --errors --update-snapshots clean verify -Drevision=$(git describe --tags --always)
